@@ -33,7 +33,7 @@ print(stats.report())
 >>> {'count': 3, 'mean': 2.6666666666666665, 'std': 1.699673171197595, 'var': 2.8888888888888893, 'median': 2.0, 'q1': 1.5, 'q3': 3.5, 'min': 1, 'max': 5
 ```
 
-# 3. Batched calculation
+## 3. Batched calculation
 
 With Statistics, you can calculate splits of the population separately and then merge them into a single Statistics object. The following example assumes that the `stats_batch1` and `stats_batch2` are calculated in different processes.
 
