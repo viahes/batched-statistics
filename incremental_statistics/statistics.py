@@ -70,14 +70,6 @@ class Statistics:
         self.min = sys.maxsize
         self.max = 0
 
-    def median(self) -> Optional[Number]:
-        """Median of the distribution
-
-        Returns:
-            Optional[Number]: The median. Returns None if there are no samples.
-        """
-        return self.quantile(0.5)
-
     def mean(self) -> Optional[Number]:
         """Average of the distribution
 
