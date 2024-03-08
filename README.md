@@ -9,6 +9,7 @@ The following metrics can be obtained from the observations:
   - `mean`: average
   - `std`: standard deviation
   - `var`: variance
+  - `median`: median
   - `quantile`: any quantile from 0 to 1
   - `min`: min value
   - `max`: max value
