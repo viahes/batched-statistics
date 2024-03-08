@@ -47,11 +47,11 @@ class Statistics:
 
         self.count += len(elements)
 
-    def update(self, other: "CumulativeStatistics"):
-        """Aggregates the values of another CumulativeStatistics object
+    def update(self, other: "Statistics"):
+        """Aggregates the values of another Statistics object
 
         Args:
-            other (CumulativeStatistics): The other statistics
+            other (Statistics): The other statistics
         """
         for k, value in other.counter.items():
             self.counter[k] += value
