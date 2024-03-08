@@ -119,6 +119,14 @@ class Statistics:
 
         return None
 
+    def median(self) -> Optional[Number]:
+        """Median of the distribution
+
+        Returns:
+            Optional[Number]: The median. Returns None if there are no samples.
+        """
+        return self.quantile(0.5)
+
     def quantile(self, q: float) -> Optional[Number]:
         """Quantile of a distribution
 
