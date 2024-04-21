@@ -3,7 +3,7 @@
 import sys
 import math
 
-from typing import Union, List, Optional, TextIO
+from typing import Union, List, Optional, TextIO, Iterator, Tuple
 from collections import Counter
 
 Number = Union[int, float]
@@ -17,7 +17,7 @@ KEY_TO_NAME = {
     "q1": "1rs quantile:",
     "q3": "3rd quantile:",
     "min": "Min value:",
-    "max": "Max value:" 
+    "max": "Max value:"
 }
 
 
@@ -34,7 +34,7 @@ class Statistics:
         sum (Number): Summatory of the values
     """
 
-    def __init__(self):
+    def __init__(self, values: Optional[Union[List[Number], Number]] = None):
         """Constructor
         """
         self.counter = Counter()
@@ -43,22 +43,25 @@ class Statistics:
         self.min = sys.maxsize
         self.max = 0
 
-    def add(self, elements: Union[List[Number], Number]):
+        if values is not None:
+            self.add(values)
+
+    def add(self, values: Union[List[Number], Number]):
         """Adds a new value of a list of values
 
         Args:
-            elements (Union[List[Number], Number]): A number or a list of numbers
+            values (Union[List[Number], Number]): A number or a list of numbers
         """
-        if not isinstance(elements, list):
-            elements = [elements]
+        if not isinstance(values, list):
+            values = [values]
 
-        for value in elements:
+        for value in values:
             self.counter[value] += 1
             self.sum += value
             self.min = min(value, self.min)
             self.max = max(value, self.max)
 
-        self.count += len(elements)
+        self.count += len(values)
 
     def update(self, other: "Statistics"):
         """Aggregates the values of another Statistics object
@@ -190,25 +193,29 @@ class Statistics:
 
         return None
 
-    def values(self) -> list:
-        """Summary
+    def values(self) -> Iterator[Number]:
+        """ Returns an iterator of ordered values
 
         Returns:
-            list: Description
+            Iterator[number]: The values
         """
-        vals = []
 
         for k, v in self.counter.items():
-            vals.extend([k] * v)
+            for _ in range(v):
+                yield k
 
-        return vals
+    def items(self) -> Iterator[Tuple[Number, int]]:
+        """ Iterates over the registered values and counts.
+        """
+
+        yield from self.counter.items()
 
     def report(
         self, file: TextIO=None, round_to: int = None, prefix: str = None,
         end = '\n'
     ) -> None:
         """Prints a readable report into a file or stdout (when file is None).
-        
+
         Args:
             file (TextIO, optional): File where report will printed.
             round_to (int, optional): Max number of decimals.
@@ -221,7 +228,7 @@ class Statistics:
             prefix = ""
 
         for k, v in stats.items():
-            if round_to is None:
+            if round_to is None or v is None:
                 print(
                     prefix + KEY_TO_NAME[k], v, file=file, end=end
                 )
@@ -254,7 +261,7 @@ class Statistics:
                 "q1": None,
                 "q3": None,
                 "min": None,
-                "max": None 
+                "max": None
             }
 
         return {
