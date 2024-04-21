@@ -29,9 +29,17 @@ stats.add(1)
 # Adding an array of samples
 stats.add([2,5])
 
-print(stats.report())
+stats.reports(round_to=1, prefix="-")
 
->>> {'count': 3, 'mean': 2.6666666666666665, 'std': 1.699673171197595, 'var': 2.8888888888888893, 'median': 2.0, 'q1': 1.5, 'q3': 3.5, 'min': 1, 'max': 5
+>>> - Number of samples: 3
+>>> - Mean: 2.7
+>>> - Standard deviation: 1.7
+>>> - Variance: 2.9
+>>> - Median: 2.0
+>>> - 1rs quantile: 1.5
+>>> - 3rd quantile: 3.5
+>>> - Min value: 1
+>>> - Max value: 5
 ```
 
 ## 3. Batched calculation
@@ -54,7 +62,15 @@ stats_batch2.add([1])
 stats.update(stats_batch1)
 stats.update(stats_batch2)
 
-print(stats.report())
+stats.reports(round_to=1, prefix="-")
 
->>> {'count': 3, 'mean': 2.6666666666666665, 'std': 1.699673171197595, 'var': 2.8888888888888893, 'median': 2.0, 'q1': 1.5, 'q3': 3.5, 'min': 1, 'max': 5
+>>> - Number of samples: 3
+>>> - Mean: 2.7
+>>> - Standard deviation: 1.7
+>>> - Variance: 2.9
+>>> - Median: 2.0
+>>> - 1rs quantile: 1.5
+>>> - 3rd quantile: 3.5
+>>> - Min value: 1
+>>> - Max value: 5
 ```

@@ -3,10 +3,23 @@
 import sys
 import math
 
-from typing import Union, List, Optional
+from typing import Union, List, Optional, TextIO
 from collections import Counter
 
 Number = Union[int, float]
+
+KEY_TO_NAME = {
+    "count": "Number of samples:",
+    "mean": "Mean:",
+    "std": "Standard deviation:",
+    "var": "Variance:",
+    "median": "Median:",
+    "q1": "1rs quantile:",
+    "q3": "3rd quantile:",
+    "min": "Min value:",
+    "max": "Max value:" 
+}
+
 
 class Statistics:
     """Class that carries the calculation of basic numerical statistics
@@ -190,14 +203,59 @@ class Statistics:
 
         return vals
 
-    def report(self) -> dict:
+    def report(
+        self, file: TextIO=None, round_to: int = None, prefix: str = None,
+        end = '\n'
+    ) -> None:
+        """Prints a readable report into a file or stdout (when file is None).
+        
+        Args:
+            file (TextIO, optional): File where report will printed.
+            round_to (int, optional): Max number of decimals.
+            prefix (str, optional): Adds text to each line of the report.
+                (For padding lines, for example)
+            end (str, optional): End of line string
+        """
+        stats = self.to_dict()
+        if prefix is None:
+            prefix = ""
+
+        for k, v in stats.items():
+            if round_to is None:
+                print(
+                    prefix + KEY_TO_NAME[k], v, file=file, end=end
+                )
+
+            elif round_to > 0:
+                print(
+                    prefix + KEY_TO_NAME[k], round(v, round_to), file=file,
+                    end=end
+                )
+
+            else:
+                print(
+                    prefix + KEY_TO_NAME[k], int(round(v, round_to)),
+                    file=file, end=end
+                )
+
+    def to_dict(self) -> dict:
         """Returns a dictionary with the statistics
 
         Returns:
             dict: The statistics. Returns an empty dictionary when no samples.
         """
         if self.count == 0:
-            return {}
+            return {
+                "count": 0,
+                "mean": None,
+                "std": None,
+                "var": None,
+                "median": None,
+                "q1": None,
+                "q3": None,
+                "min": None,
+                "max": None 
+            }
 
         return {
             "count": self.count,
@@ -225,7 +283,7 @@ class Statistics:
         Returns:
             str: the report
         """
-        return repr(self.report())
+        return repr(self.to_dict())
 
     def __str__(self) -> str:
         """ Returns the report
@@ -233,4 +291,4 @@ class Statistics:
         Returns:
             str: the report
         """
-        return str(self.report())
+        return str(self.to_dict())
