@@ -29,7 +29,7 @@ stats.add(1)
 # Adding an array of samples
 stats.add([2,5])
 
-stats.reports(round_to=1, prefix="-")
+stats.report(round_to=1, prefix="-")
 
 >>> - Number of samples: 3
 >>> - Mean: 2.7
@@ -62,7 +62,7 @@ stats_batch2.add([1])
 stats.update(stats_batch1)
 stats.update(stats_batch2)
 
-stats.reports(round_to=1, prefix="-")
+stats.report(round_to=1, prefix="-")
 
 >>> - Number of samples: 3
 >>> - Mean: 2.7
